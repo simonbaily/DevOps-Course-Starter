@@ -7,6 +7,7 @@
     <p class="lead">Just another to-do app.</p>
   </div>
 
+  <!-- List the todo items here -->
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
@@ -14,7 +15,6 @@
         {% for item in items %}
           <li>{{ item.title }}</li>
         {% endfor %}
-        <!-- List the todo items here -->
       </ul>
     </div>
   </div>
@@ -23,9 +23,6 @@
     <div class="form_newitem">
       <label for="name">Enter new todo item name: </label>
       <input type="text" name="createNew" id="createNew" required>
-    </div>
-    <div class="form_newitem">
-      <input type="submit" value="Save">
     </div>
  
 {% endblock %}
