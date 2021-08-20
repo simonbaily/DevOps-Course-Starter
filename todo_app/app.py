@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request # used for jinja and getting post requests 
+from flask import Flask, render_template, redirect, request # used for jinja and getting post requests 
 
 from todo_app.flask_config import Config 
 
 from todo_app.data.session_items import * # can use * as a wildcard to take everything from another file
-
-
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -20,8 +18,7 @@ def index():
 def addNewItem():
     newItem = request.form['createNew']
     add_item(title = newItem)
-    items = get_items()
-    return render_template('index.html', items=items)
+    return redirect('/')
       
 
 if __name__ == '__main__':
