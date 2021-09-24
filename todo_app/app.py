@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, request # used for jinja and getting post requests 
+from flask import Flask, render_template, redirect, request # used for jinja and getting post requests
+from todo_app.trello_config import TRELLO_URL, TRELLO_KEY, TRELLO_TOKEN, TRELLO_USERNAME #import secrets for Trello
 
 from todo_app.flask_config import Config 
 
