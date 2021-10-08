@@ -1,4 +1,8 @@
 from flask import session
+from todo_app.trello_config import TRELLO_URL, TRELLO_KEY, TRELLO_TOKEN, TRELLO_USERNAME, BOARD_ID_TEST #import secrets for Trello
+from flask import Flask, render_template, redirect
+import requests
+
 
 _DEFAULT_ITEMS = [
     { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
@@ -6,14 +10,20 @@ _DEFAULT_ITEMS = [
 ]
 
 
-def get_items():
+def get_trello_items():
+    query_params = { "cards": 'all', "key": TRELLO_KEY, "token": TRELLO_TOKEN}
+    requrl = f"{TRELLO_URL}/1/boards/{BOARD_ID_TEST}/lists"
+    response = requests.get(requrl, params=query_params)
+    return (response.json())
+
     """
     Fetches all saved items from the session.
 
     Returns:
         list: The list of saved items.
+     return session.get('items', _DEFAULT_ITEMS)
     """
-    return session.get('items', _DEFAULT_ITEMS)
+   
 
 
 def get_item(id):
@@ -26,7 +36,7 @@ def get_item(id):
     Returns:
         item: The saved item, or None if no items match the specified ID.
     """
-    items = get_items()
+    items = get_trello_items()
     return next((item for item in items if item['id'] == int(id)), None)
 
 
@@ -40,7 +50,7 @@ def add_item(title):
     Returns:
         item: The saved item.
     """
-    items = get_items()
+    items = get_trello_items()
 
     # Determine the ID for the item based on that of the previously added item
     id = items[-1]['id'] + 1 if items else 0
@@ -61,7 +71,7 @@ def save_item(item):
     Args:
         item: The item to save.
     """
-    existing_items = get_items()
+    existing_items = get_trello_items()
     updated_items = [item if item['id'] == existing_item['id'] else existing_item for existing_item in existing_items]
 
     session['items'] = updated_items
