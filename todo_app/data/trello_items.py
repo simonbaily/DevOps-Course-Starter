@@ -1,79 +1,49 @@
-from flask import session
-from todo_app.trello_config import TRELLO_URL, TRELLO_KEY, TRELLO_TOKEN, TRELLO_USERNAME, BOARD_ID_TEST #import secrets for Trello
-from flask import Flask, render_template, redirect
 import requests
+from todo_app.trello_config import TRELLO_URL, TRELLO_KEY, TRELLO_TOKEN, TODO_APP_BOARD_ID, TO_DO_LIST_ID #import secrets for Trello
 
 
-_DEFAULT_ITEMS = [
-    { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
-    { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
-]
-
-
-def get_trello_items():
-    query_params = { "cards": 'all', "key": TRELLO_KEY, "token": TRELLO_TOKEN}
-    requrl = f"{TRELLO_URL}/1/boards/{BOARD_ID_TEST}/lists"
+def get_trello_lists():
+    query_params = { "cards": 'open', "key": TRELLO_KEY, "token": TRELLO_TOKEN}
+    requrl = f"{TRELLO_URL}/1/boards/{TODO_APP_BOARD_ID}/lists"
     response = requests.get(requrl, params=query_params)
     return (response.json())
 
-    """
-    Fetches all saved items from the session.
 
-    Returns:
-        list: The list of saved items.
-     return session.get('items', _DEFAULT_ITEMS)
+def add_card(name):
     """
-   
-
-
-def get_item(id):
-    """
-    Fetches the saved item with the specified ID.
+    Adds a new card on the 'To Do' list to the 'ToDo App using Trello' board in Trello
 
     Args:
-        id: The ID of the item.
+        name: The name of the card. This comes index.html, 
 
     Returns:
-        item: The saved item, or None if no items match the specified ID.
+        json object from requests library.
     """
-    items = get_trello_items()
-    return next((item for item in items if item['id'] == int(id)), None)
+    query_params = { "name": name, "idList": TO_DO_LIST_ID, "key": TRELLO_KEY, "token": TRELLO_TOKEN}
+    requrl = f"{TRELLO_URL}/1/cards"
+    response = requests.post(requrl, params=query_params)
+    return(response.json())
 
 
-def add_item(title):
-    """
-    Adds a new item with the specified title to the session.
+# """
+# def get_trello_cards():     #retrieves cards only
 
-    Args:
-        title: The title of the item.
+#     query_params = { "key": TRELLO_KEY, "token": TRELLO_TOKEN}
+#     requrl = f"{TRELLO_URL}/1/boards/{TODO_APP_BOARD_ID}/cards"
+#     response = requests.get(requrl, params=query_params)
+#     return (response.json())
+# """
 
-    Returns:
-        item: The saved item.
-    """
-    items = get_trello_items()
+# def save_item(item):    #not attempted any of this functionality yet
+#     """
+#     Updates an existing item in the session. If no existing item matches the ID of the specified item, nothing is saved.
 
-    # Determine the ID for the item based on that of the previously added item
-    id = items[-1]['id'] + 1 if items else 0
+#     Args:
+#         item: The item to save.
+#     """
+#     existing_items = get_trello_cards()
+#     updated_items = [item if item['id'] == existing_item['id'] else existing_item for existing_item in existing_items]
 
-    item = { 'id': id, 'title': title, 'status': 'Not Started' }
+#     session['items'] = updated_items
 
-    # Add the item to the list
-    items.append(item)
-    session['items'] = items
-
-    return item
-
-
-def save_item(item):
-    """
-    Updates an existing item in the session. If no existing item matches the ID of the specified item, nothing is saved.
-
-    Args:
-        item: The item to save.
-    """
-    existing_items = get_trello_items()
-    updated_items = [item if item['id'] == existing_item['id'] else existing_item for existing_item in existing_items]
-
-    session['items'] = updated_items
-
-    return item
+#     return item

@@ -3,7 +3,7 @@ from todo_app.trello_config import TRELLO_URL, TRELLO_KEY, TRELLO_TOKEN
 
 query_params = {"key": TRELLO_KEY, "token": TRELLO_TOKEN}
 
-reqUrl = TRELLO_URL+"/1/cards/61461b433055f388b9387a65"
+reqUrl = TRELLO_URL+"/1/cards/61461b433055f388b9387a65" #number is card_ID
 
 response = requests.delete(reqUrl, params=query_params)
 
