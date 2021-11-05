@@ -14,7 +14,12 @@
       <ol class="list-group mb-4">
         {% for list in lists %}
           {% for card in list.cards %}
+            <!-- <a href="/updateitem/{{card.id}}"> Mark as Done </a> -->
             <li>{{ card.name }} - {{list.name}}</li>
+            <form action="{{url_for('update_existing_item')}}" method="POST" class="form_newitem">
+              <input type="text" name="id" value="{{card.id}}" hidden>
+              <button type="submit">Mark as Done</button>
+            </form>
           {% endfor %}
         {% endfor %}
       </ol>
@@ -26,5 +31,7 @@
       <label for="name">Enter new To Do item name: </label>
       <input type="text" name="createNew">
     </div>
+    <button type="submit">Create new todo</button>
+  </form>
  
 {% endblock %}

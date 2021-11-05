@@ -50,3 +50,18 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Changes for module 2
+
+New functions written to manipulate items in the ToDo app which make API calls to Trello where the items are now stored. Functions are in \data\trello_items.py
+Corresponding updates made to \app.py and \templates\index.html 
+
+Trello API key and token, as well as other necessary secrets are stored in trello_config.py which has been included in .gitignore
+These are:
+
+TRELLO_URL = "https://api.trello.com"
+TRELLO_KEY = Issued by Trello 
+TRELLO_TOKEN = Issued by Trello 
+TODO_APP_BOARD_ID = the id of the Trello Board being used
+TO_DO_LIST_ID = the id of the To Do list  (idList)
+DONE_LIST_ID = the id of the Done list  (idList)
