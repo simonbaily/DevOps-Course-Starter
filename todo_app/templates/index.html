@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
+    <h1 class="display-4">ToDo App using Trello</h1>
     <p class="lead">Just another to-do app.</p>
   </div>
 
@@ -11,18 +11,27 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        {% for item in items %}
-          <li>{{ item.title }}</li>
+      <ol class="list-group mb-4">
+        {% for list in lists %}
+          {% for card in list.cards %}
+            <!-- <a href="/updateitem/{{card.id}}"> Mark as Done </a> -->
+            <li>{{ card.name }} - {{list.name}}</li>
+            <form action="{{url_for('update_existing_item')}}" method="POST" class="form_newitem">
+              <input type="text" name="id" value="{{card.id}}" hidden>
+              <button type="submit">Mark as Done</button>
+            </form>
+          {% endfor %}
         {% endfor %}
-      </ul>
+      </ol>
     </div>
   </div>
 
   <form action="/newitem" method="POST" class="form_newitem">
     <div class="form_newitem">
-      <label for="name">Enter new todo item name: </label>
-      <input type="text" name="createNew" id="createNew" required>
+      <label for="name">Enter new To Do item name: </label>
+      <input type="text" name="createNew">
     </div>
+    <button type="submit">Create new todo</button>
+  </form>
  
 {% endblock %}

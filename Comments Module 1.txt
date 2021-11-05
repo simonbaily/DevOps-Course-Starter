@@ -1,3 +1,9 @@
 https://github.com/simonbaily/DevOps-Course-Starter/pull/1
 
 Dont understand comment #4 about IDs
+
+Swagger. Is there one for Trello? How would I find out?
+
+Trello has been bought by Atlassian? PDF links redirect to atlassian website. 
+API introduction:
+https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/
